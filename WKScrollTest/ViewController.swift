@@ -2,8 +2,8 @@
 //  ViewController.swift
 //  WKScrollTest
 //
-//  Created by Darryl Pogue on 2016-06-02.
-//  Copyright © 2016 Darryl Pogue. All rights reserved.
+//  Created by Darryl Pogue on 2017-01-24.
+//  Copyright © 2017 Darryl Pogue. All rights reserved.
 //
 
 import UIKit
@@ -25,38 +25,61 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var doc = ["<!DOCTYPE html>",
+        let doc = ["<!DOCTYPE html>",
                    "<html>",
                    " <head>",
-                   "  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\">",
+                   "  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0,minimum-scale=1.0\">",
                    "  <style>",
+                   "   body { font-family: -apple-system; font-size: 1.25em; padding-top: 80px; padding-bottom: 50px; }",
                    "   header { position: fixed; height: 50px; padding-top: 30px; width: 100%; top: 0; left: 0; background: lightsteelblue; text-align: center; }",
-                   "   p { margin-top: 80px; }",
+                   "   footer { position: fixed; height: 30px; width: 100%; bottom: 0; left: 0; background: steelblue; text-align: center; }",
                    "  </style>",
                    "  <script>",
-                   "   function logClick() { console.log('Clicked the Button'); }",
+                   "   function logClick() { navigator.geolocation.getCurrentPosition(); }",
                    "  </script>",
                    " </head>",
                    " <body>",
                    "  <header>",
-                   "   <button onclick=\"logClick()\">Hello World</button>",
+                   "   <input id=\"headerInput\" type=\"text\" />",
                    "  </header>",
+                   "  <footer>",
+                   "   <input id=\"footerInput\" type=\"text\" />",
+                   "  </footer>",
                    "  <p>",
-                   "   <b>WKWebView position:fixed scroll bug</b>",
+                   "   <b>WKWebView position:fixed input focus scrolling</b>",
                    "   <br><br>",
-                   "   To trigger this bug, scroll down the page slightly and stop. Then scroll up as if you were going to scroll beyond the top of the page. Then try to click the button in the fixed position header.",
-                   "   <br>",
-                   "   If you connect the Safari inspector and look at the header element, you can see that its logical position for interaction purposes does not match where it is visually drawn on the page. The visual position is correct.",
+                   "   This is a test page with a fixed position header for testing the behaviour of input focus scrolling in combination with position fixed elements in the new Visual Viewport model in WKWebView.",
                    "  </p>",
-                   "  <ul>"];
-        
-        for idx in 1...100 {
-            doc.append("<li>List item \(idx)</li>");
-        }
-        
-        let webContent = doc.joinWithSeparator("\n") + "</ul></body></html>";
+                   "  <ol>",
+                   "   <li><h3>💚 Test Case 1:</h3>",
+                   "    <p>Scroll down the page. Tap the input element in the header. With the keyboard overlay shown, scroll up the page. The fixed position header should remain attached to the top of the screen.</p>",
+                   "   </li>",
+                   "   <li><h3>💔 Test Case 2:</h3>",
+                   "    <p>Tap the input element in the header. With the keyboard overlay shown, scroll down the page. The fixed position header should remain attached to the top of the screen.</p>",
+                   "   </li>",
+                   "   <li><h3>💔 Test Case 3:</h3>",
+                   "    <p>Tap the input element here:<br><input type=\"text\" /><br> When the keyboard is shown, the fixed position header should remain attached to the top of the screen.</p>",
+                   "   </li>",
+                   "   <li><h3>💔 Test Case 4:</h3>",
+                   "    <p>Tap the input element in the footer. When the keyboard is shown, the fixed position header should remain attached to the top of the screen.</p>",
+                   "   </li>",
+                   "   <li><h3>💚 Test Case 5:</h3>",
+                   "    <p>Tap the input element in the footer. With the keyboard overlay shown, scroll down the page. The fixed position footer should remain attached to the bottom of the screen.</p>",
+                   "   </li>",
+                   "   <li><h3>💔 Test Case 6:</h3>",
+                   "    <p>Tap the input element in the footer. With the keyboard overlay shown, scroll up the page. The fixed position footer should remain attached to the bottom of the screen.</p>",
+                   "   </li>",
+                   "   <li><h3>💔 Test Case 7:</h3>",
+                   "    <p>Tap the input element here:<br><input type=\"text\" /><br> When the keyboard is shown, the fixed position footer should remain attached to the bottom of the screen.</p>",
+                   "   </li>",
+                   "   <li><h3>💔 Test Case 8:</h3>",
+                   "    <p>Tap the input element in the header. When the keyboard is shown, the fixed position footer should remain attached to the bottom of the screen.</p>",
+                   "   </li>",
+                   "  </ol>",
+                   " </body>",
+                   "</html>"];
 
-        self.webView!.loadHTMLString(webContent, baseURL: nil);
+        self.webView!.loadHTMLString(doc.joined(separator:"\n"), baseURL: nil);
     }
 
     override func didReceiveMemoryWarning() {
