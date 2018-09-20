@@ -10,8 +10,6 @@ import UIKit
 import WebKit
 
 let USE_UIWEBVIEW = false; // false, or true
-let VIEWPORT_FIT = "cover"; // "cover", "contain", or "auto"
-let POSITION = "fixed"; // "fixed", or "sticky"
 
 class ViewController: UIViewController {
     
@@ -39,57 +37,22 @@ class ViewController: UIViewController {
         let doc = ["<!DOCTYPE html>",
                    "<html>",
                    " <head>",
-                   "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=\(VIEWPORT_FIT)\">",
+                   "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover\">",
                    "  <style>",
-                   "   html { font: -apple-system-body; }",
-                   "   body { font-family: -apple-system; font-size: 1.25em; padding-top: 2.5em; padding-bottom: 1.5em; margin: 0; padding: 0; }",
-                   "   header { position: \(POSITION); height: 2.5em; padding-top: 30px; width: 100%; top: 0; left: 0; background: lightsteelblue; text-align: center; }",
-                   "   footer { position: \(POSITION); height: 1.5em; width: 100%; bottom: 0; left: 0; background: steelblue; text-align: center; }",
-                   "   p { padding: auto 1em; }",
+                   "   * { box-sizing: border-box; }",
+                   "   html { font: -apple-system-body; height: 100vh; background: lime; }",
+                   /* Apologies for my horrific choice of colours! */
+                   "   body { font-family: -apple-system; font-size: 1.25em; padding: 0; padding-top: env(safe-area-inset-top, 20px); padding-bottom: env(safe-area-inset-bottom, 0px); margin: 0; height: 100%; background: linear-gradient(to bottom, red, blue) no-repeat; color: white; }",
+                   "   p { padding: 0.5em 1em; }",
                    "   input { font-size: 0.75em; }",
                    "  </style>",
                    " </head>",
                    " <body>",
-                   "  <header>",
-                   "   <input id=\"headerInput\" type=\"text\" />",
-                   "  </header>",
-                   "  <footer>",
-                   "   <input id=\"footerInput\" type=\"text\" />",
-                   "  </footer>",
-                   "  <p>",
-                   "   <b>WKWebView position:fixed input focus scrolling</b>",
-                   "   <br><br>",
-                   "   This is a test page with a fixed position header for testing the behaviour of input focus scrolling in combination with position fixed elements in the new Visual Viewport model in WKWebView.",
-                   "  </p>",
-                   "  <ol>",
-                   "   <li><h3>💚 Test Case 1:</h3>",
-                   "    <p>Scroll down the page. Tap the input element in the header. With the keyboard overlay shown, scroll up the page. The \(POSITION) position header should remain in position and attached to the top of the screen.</p>",
-                   "   </li>",
-                   "   <li><h3>💔 Test Case 2:</h3>",
-                   "    <p>Tap the input element in the header. With the keyboard overlay shown, scroll down the page. The \(POSITION) position header should remain in position and attached to the top of the screen.</p>",
-                   "   </li>",
-                   "   <li><h3>💔 Test Case 3:</h3>",
-                   "    <p>Tap the input element here:<br><input type=\"text\" /><br> When the keyboard is shown, the \(POSITION) position header should remain in position and attached to the top of the screen.</p>",
-                   "   </li>",
-                   "   <li><h3>💔 Test Case 4:</h3>",
-                   "    <p>Tap the input element in the footer. When the keyboard is shown, the \(POSITION) position header should remain in position and attached to the top of the screen.</p>",
-                   "   </li>",
-                   "   <li><h3>💚 Test Case 5:</h3>",
-                   "    <p>Tap the input element in the footer. With the keyboard overlay shown, scroll down the page. The \(POSITION) position footer should remain in position and attached to the bottom of the screen.</p>",
-                   "   </li>",
-                   "   <li><h3>💔 Test Case 6:</h3>",
-                   "    <p>Tap the input element in the footer. With the keyboard overlay shown, scroll up the page. The \(POSITION) position footer should remain in position and attached to the bottom of the screen.</p>",
-                   "   </li>",
-                   "   <li><h3>💔 Test Case 7:</h3>",
-                   "    <p>Tap the input element here:<br><input type=\"text\" /><br> When the keyboard is shown, the \(POSITION) position footer should remain in position and attached to the bottom of the screen.</p>",
-                   "   </li>",
-                   "   <li><h3>💔 Test Case 8:</h3>",
-                   "    <p>Tap the input element in the header. When the keyboard is shown, the \(POSITION) position footer should remain in position and attached to the bottom of the screen.</p>",
-                   "   </li>",
-                   "  </ol>",
+                   "  <p><b>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</b><br><br>Nunc felis sapien, laoreet in nibh sed, finibus dapibus augue. Morbi risus nisl, mattis eget velit vitae, tristique malesuada velit. Duis elementum vulputate iaculis. Nunc id erat ultrices, eleifend eros nec, sodales nisl. Praesent at justo mi.</p>",
+                   "  <input type=\"email\">",
                    " </body>",
                    "</html>"];
-
+        
         if (USE_UIWEBVIEW) {
             self.oldView!.loadHTMLString(doc.joined(separator:"\n"), baseURL: nil);
         } else {
@@ -100,7 +63,5 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
-
 }
 
